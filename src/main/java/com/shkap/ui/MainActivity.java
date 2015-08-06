@@ -25,14 +25,15 @@ public class MainActivity extends ViewInitializer {
     }
 
     @Override
+    protected void initViews() {
+        initToolbar();
+        initNavDrawer();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
 
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void initViews() {
-        initToolbar();
-        initNavDrawer();
     }
 }

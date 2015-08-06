@@ -24,7 +24,7 @@ public class SearchableActivity extends ViewInitializer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
-        initToolbar();
+        initViews();
         Intent intent = getIntent();
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             query = intent.getStringExtra(SearchManager.QUERY);
@@ -44,6 +44,11 @@ public class SearchableActivity extends ViewInitializer {
             }
         });
         mToolbar.setTitle("Search");
+    }
+
+    @Override
+    protected void initViews() {
+        initToolbar();
     }
 
     @Override

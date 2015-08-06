@@ -30,6 +30,7 @@ public abstract class ViewInitializer extends AppCompatActivity implements Toolb
     protected SearchView searchView;
 
     protected abstract void initToolbar ();
+    protected abstract void initViews();
 
     // Инициализация меню навигации
     protected void initNavDrawer() {
