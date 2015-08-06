@@ -3,7 +3,6 @@ package com.shkap.social;
 import android.net.Uri;
 import android.util.Log;
 
-import com.shkap.data.ApiInfo;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -25,7 +24,9 @@ public class ShkapSRV {
     private static String shkap_token = null;
     private static String response;
     private static String userData;
-    private static final String HEADER = "Authorization: Bearer ";
+    private static final String AUTHORIZATION = "Authorization ";
+    private static final String BEARER = " Bearer ";
+
 
     public static String register(String accessToken, Uri destination) {
         try {
@@ -36,7 +37,7 @@ public class ShkapSRV {
                     .url(address)
                     .post(body)
                     .build();
-            shkap_token = ShkapSRV.connect(request);
+            shkap_token = connect(request);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,10 +49,9 @@ public class ShkapSRV {
             URL address = new URL(uri.toString());
             Request request = new Request.Builder()
                     .url(address)
-                    .header(shkap_token, HEADER)
-                    .header("Authorization: Bearer ", shkap_token)
+                    .header(AUTHORIZATION, BEARER + shkap_token)
                     .build();
-            userData = ShkapSRV.connect(request);
+            userData = connect(request);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }

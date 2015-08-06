@@ -65,7 +65,7 @@ public class ApiInfo {
                 .build();
     }
 
-    public static Uri regToFb() {
+    public static Uri regToFacebook() {
         Uri.Builder builder = new Uri.Builder();
         return builder.scheme(PROTOCOL)
                 .appendEncodedPath(SHKAP_SERV)
