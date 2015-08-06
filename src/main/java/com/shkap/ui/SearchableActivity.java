@@ -1,4 +1,4 @@
-package com.shkap;
+package com.shkap.ui;
 
 import android.app.SearchManager;
 import android.content.ComponentName;
@@ -11,6 +11,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.shkap.R;
+import com.shkap.model.ViewInitializer;
 
 
 public class SearchableActivity extends ViewInitializer {
@@ -53,8 +56,8 @@ public class SearchableActivity extends ViewInitializer {
         MenuItem searchItem = menu.findItem(R.id.searchable_search_action);
         searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) searchItem.getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName("com.shkap",
-                "com.shkap.SearchableActivity")));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName("com.shkap.ui",
+                "com.shkap.ui.SearchableActivity")));
         searchView.setIconifiedByDefault(false);
         searchView.setQuery(query, false);
         return true;

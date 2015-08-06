@@ -1,14 +1,20 @@
-package com.shkap;
+package com.shkap.model;
 
 import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.shkap.R;
+import com.shkap.ui.DrawerFragment;
 
 /**
  * Created by Eduard on 02.08.2015.
@@ -65,5 +71,17 @@ public abstract class ViewInitializer extends AppCompatActivity implements Toolb
 
     @Override
     public void onClick(View v) {
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.main_search_action);
+        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) searchItem.getActionView();
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName("com.shkap",
+                "com.shkap.ui.SearchableActivity")));
+        searchView.setIconifiedByDefault(true);
+        return true;
     }
 }

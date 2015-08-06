@@ -37,6 +37,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:layout="@layout/drawer_fragment"
-        android:name="com.shkap.DrawerFragment"
+        android:name="com.shkap.ui.DrawerFragment"
         tools:layout="@layout/drawer_fragment" />
 </android.support.v4.widget.DrawerLayout>
