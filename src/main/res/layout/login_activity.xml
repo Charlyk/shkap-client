@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    tools:context="com.shkap.ui.LoginActivity">
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with VKontakte"
+        android:id="@+id/vk_loginBtn"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        style="?android:actionButtonStyle"
+        android:background="#567ca4"
+        android:layout_below="@+id/fb_loginBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp" />
+
+    <com.facebook.login.widget.LoginButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with Facebook"
+        android:id="@+id/fb_loginBtn"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        style="?android:actionButtonStyle"
+        android:background="#47639e"
+        android:layout_below="@+id/ggp_loginBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="29dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Login with Google+"
+        android:id="@+id/ggp_loginBtn"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        style="?android:actionButtonStyle"
+        android:background="#db4437"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="126dp" />
+</RelativeLayout>

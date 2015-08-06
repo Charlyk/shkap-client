@@ -16,12 +16,6 @@ public class MainActivity extends ViewInitializer {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         initViews();
-        VKManager vkManager = new VKManager(this, MainActivity.this);
-        if (!vkManager.isLoggedIn()) {
-            VKManager.logInWithVK();
-        }
-        VKManager.setAccesToken();
-        Log.i("TAG", VKManager.getAccesToken());
     }
 
     @Override

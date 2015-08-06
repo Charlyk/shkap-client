@@ -5,6 +5,8 @@
     <string name="action_settings">Settings</string>
     <string name="search_action_desc">Search</string>
     <string name="user_acc_navigation">Account</string>
+
+    <string name="facebook_app_id">907075282646548</string>
     <integer name="com_vk_sdk_AppId">5021261</integer>
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -13,5 +15,4 @@
     <string name="drawer_close">Close</string>
     <string name="title_activity_search">Search</string>
     <string name="profile_btn_description">Profile settings</string>
-    <string name="title_activity_login">User Login</string>
 </resources>
