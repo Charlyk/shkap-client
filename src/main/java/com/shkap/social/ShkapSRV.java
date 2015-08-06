@@ -25,7 +25,10 @@ public class ShkapSRV {
     private static String shkap_token = null;
     private static String response;
     private static String userData;
+<<<<<<< HEAD
     private static final String HEADER = "Authorization: Bearer ";
+=======
+>>>>>>> 0d4cfb408415b5ee5feba8f26beccd60e3a073ff
 
     public static String register(String accessToken, Uri destination) {
         try {
@@ -48,7 +51,11 @@ public class ShkapSRV {
             URL address = new URL(uri.toString());
             Request request = new Request.Builder()
                     .url(address)
+<<<<<<< HEAD
                     .header(shkap_token, HEADER)
+=======
+                    .header("Authorization: Bearer ", shkap_token)
+>>>>>>> 0d4cfb408415b5ee5feba8f26beccd60e3a073ff
                     .build();
             userData = ShkapSRV.connect(request);
         } catch (MalformedURLException e) {
