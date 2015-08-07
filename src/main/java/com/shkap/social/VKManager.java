@@ -26,6 +26,9 @@ public class VKManager extends LoginActivity {
     // Логинит пользователя в ВКонтакте
     public static void logInWithVK() {
         VKSdk.login(currentActivity, VKScope.PHOTOS, VKScope.FRIENDS);
+        String accessToken = VKAccessToken.currentToken().accessToken;
+        //LoginActivity.makeLog("TAG", VKAccessToken.currentToken().accessToken);
+        //ShkapSRV.register(accessToken, ApiInfo.regToVK());
     }
 
 

@@ -3,6 +3,7 @@ package com.shkap.social;
 import android.net.Uri;
 import android.util.Log;
 
+import com.shkap.ui.LoginActivity;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
@@ -12,6 +13,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -20,7 +22,6 @@ import java.net.URL;
  */
 public class ShkapSRV {
 
-    private static final OkHttpClient client = new OkHttpClient();
     private static String shkap_token = null;
     private static String response;
     private static String userData;
@@ -32,12 +33,14 @@ public class ShkapSRV {
         try {
             RequestBody body = RequestBody.create(MediaType.parse(accessToken), accessToken);
             Log.i("TAG", destination.toString());
+            LoginActivity.makeLog("TAG", body.toString());
             URL address = new URL(destination.toString());
             Request request = new Request.Builder()
                     .url(address)
                     .post(body)
                     .build();
             shkap_token = connect(request);
+            LoginActivity.makeLog("TAG", shkap_token);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -59,6 +62,7 @@ public class ShkapSRV {
     }
 
     private static String connect(Request request) {
+        OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
             @Override
@@ -69,9 +73,9 @@ public class ShkapSRV {
             @Override
             public void onResponse(Response response) throws IOException {
                 Log.i("TAG", response.body().string());
-                ShkapSRV.response = response.body().string();
+                shkap_token = response.body().string();
             }
         });
-        return ShkapSRV.response;
+        return shkap_token;
     }
 }

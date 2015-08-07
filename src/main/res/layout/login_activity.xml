@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="33dp" />
 
-    <com.facebook.login.widget.LoginButton
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login with Facebook"

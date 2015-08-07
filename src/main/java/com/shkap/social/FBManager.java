@@ -30,6 +30,7 @@ public class FBManager extends LoginActivity {
         return new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show();
                 LoginActivity.saveToken(ShkapSRV.register(loginResult.getAccessToken().toString(),
                         ApiInfo.regToFacebook()));
             }

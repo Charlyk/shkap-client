@@ -1,5 +1,6 @@
 package com.shkap.ui;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +14,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.shkap.R;
 import com.shkap.data.ApiInfo;
 import com.shkap.model.ViewInitializer;
@@ -26,8 +31,13 @@ import com.vk.sdk.util.VKUtil;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.Signature;
+import java.util.Arrays;
 
-public class LoginActivity extends ViewInitializer implements View.OnClickListener {
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class LoginActivity extends Activity {
 
     protected Intent mMainIntent;
     protected CallbackManager callbackManager;
@@ -35,12 +45,17 @@ public class LoginActivity extends ViewInitializer implements View.OnClickListen
     private static final String PREFERENCES = "preferences";
     private static final String SHKAP_TOKEN = "shkap_token";
 
+    @Bind(R.id.ggp_loginBtn) Button mGoogleButton;
+    @Bind(R.id.fb_loginBtn) Button mFacebookButton;
+    @Bind(R.id.vk_loginBtn) Button mVKButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this);
         setContentView(R.layout.login_activity);
+        ButterKnife.bind(this);
+
         mPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         mMainIntent = new Intent(this, MainActivity.class);
         if (getToken() != null) {
@@ -48,45 +63,49 @@ public class LoginActivity extends ViewInitializer implements View.OnClickListen
             startActivity(mMainIntent);
             finish();
         }
-        initViews();
         callbackManager = FBManager.getCallbackManager();
         FBManager fbManager = new FBManager(LoginActivity.this);
+        LoginManager.getInstance().registerCallback(FBManager.getCallbackManager(),
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        makeLog("TAG", loginResult.getAccessToken().toString());
+                        LoginActivity.saveToken(ShkapSRV.register(loginResult.getAccessToken().toString(),
+                                ApiInfo.regToFacebook()));
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        makeToasts("You canceled authorisation");
+                    }
+
+                    @Override
+                    public void onError(FacebookException e) {
+                        makeToasts("Ooops... there is an error");
+                    }
+                });
     }
 
-    @Override
-    protected void initToolbar() {}
-
-    @Override
-    protected void initViews() {
-        Button mGoogleButton = (Button) findViewById(R.id.ggp_loginBtn);
-        mGoogleButton.setOnClickListener(this);
-
-        com.facebook.login.widget.LoginButton facebookButton = (com.facebook.login.widget.LoginButton)
-                findViewById(R.id.fb_loginBtn);
-        facebookButton.setReadPermissions("user_friends");
-        facebookButton.registerCallback(FBManager.getCallbackManager(),
-                FBManager.getLoginResult());
-
-        Button VKButton = (Button) findViewById(R.id.vk_loginBtn);
-        VKButton.setOnClickListener(this);
+    @OnClick(R.id.ggp_loginBtn)
+    public void googleClick() {
+        makeToasts("Google");
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.ggp_loginBtn:
-                makeToasts("Google");
-                break;
-            case R.id.vk_loginBtn:
-                VKManager vkManager = new VKManager(LoginActivity.this, LoginActivity.this);
-                VKManager.logInWithVK();
-                makeToasts("Welcome");
-                break;
-        }
+    @OnClick(R.id.vk_loginBtn)
+    public void vkClick() {
+        VKManager vkManager = new VKManager(LoginActivity.this, LoginActivity.this);
+        VKManager.logInWithVK();
+        makeToasts("Welcome");
+    }
+
+    @OnClick(R.id.fb_loginBtn)
+    public void fbClick() {
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
+                Arrays.asList("public_profile", "user_friends"));
     }
 
     public static void saveToken(String shkap_token) {
-        Log.i("TAG", shkap_token);
+        makeLog("TAG", shkap_token);
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(SHKAP_TOKEN, shkap_token);
         editor.apply();
@@ -100,11 +119,15 @@ public class LoginActivity extends ViewInitializer implements View.OnClickListen
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    public static void makeLog(String tag, String message) {
+        Log.i(tag, message);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         startActivity(mMainIntent);
         finish();
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }
