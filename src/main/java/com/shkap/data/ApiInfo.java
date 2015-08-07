@@ -2,13 +2,17 @@ package com.shkap.data;
 
 import android.net.Uri;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * Created by Eduard Albu on 06.08.2015.
  */
 public class ApiInfo {
 
-    private static final String SHKAP_SERV = "/buldakov.org:8080";
+    private static final String SHKAP_SERV = "buldakov.org";
     private static final String API_V = "v1";
+    private static final int PORT = 8080;
     private static final String USERS = "users";
     private static final String THINGS = "things";
     private static final String ATTACHMENTS = "attachments";
@@ -17,13 +21,12 @@ public class ApiInfo {
     private static final String VK = "vk";
     private static final String FB = "fb";
 
-    public static Uri getUsers() {
+    public static URL getUsers() throws MalformedURLException {
         Uri.Builder builder = new Uri.Builder();
-        return builder.scheme(PROTOCOL)
-                .appendEncodedPath(SHKAP_SERV)
-                .appendPath(API_V)
+        builder.appendPath(API_V)
                 .appendPath(USERS)
                 .build();
+        return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
     public static Uri getUser(String userId) {
@@ -55,24 +58,22 @@ public class ApiInfo {
                 .build();
     }
 
-    public static Uri regToVK() {
+    public static URL regToVK() throws MalformedURLException {
         Uri.Builder builder = new Uri.Builder();
-        return builder.scheme(PROTOCOL)
-                .appendEncodedPath(SHKAP_SERV)
-                .appendPath(API_V)
+        builder.appendPath(API_V)
                 .appendPath(VK)
                 .appendPath(REGISTER)
                 .build();
+        return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
-    public static Uri regToFacebook() {
+    public static URL regToFacebook() throws MalformedURLException {
         Uri.Builder builder = new Uri.Builder();
-        return builder.scheme(PROTOCOL)
-                .appendEncodedPath(SHKAP_SERV)
-                .appendPath(API_V)
+        builder.appendPath(API_V)
                 .appendPath(FB)
                 .appendPath(REGISTER)
                 .build();
+        return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
     public static Uri getAttachments() {

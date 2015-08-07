@@ -22,46 +22,30 @@ import java.net.URL;
  */
 public class ShkapSRV {
 
-    private static String shkap_token = null;
-    private static String response;
-    private static String userData;
     private static final String AUTHORIZATION = "Authorization ";
     private static final String BEARER = " Bearer ";
 
-
-    public static String register(String accessToken, Uri destination) {
-        try {
-            RequestBody body = RequestBody.create(MediaType.parse(accessToken), accessToken);
-            Log.i("TAG", destination.toString());
-            LoginActivity.makeLog("TAG", body.toString());
-            URL address = new URL(destination.toString());
-            Request request = new Request.Builder()
-                    .url(address)
-                    .post(body)
-                    .build();
-            shkap_token = connect(request);
-            LoginActivity.makeLog("TAG", shkap_token);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return shkap_token;
+    public static void register(String accessToken, URL destination) {
+        RequestBody body = RequestBody.create(MediaType.parse(accessToken), accessToken);
+        Log.i("TAG", accessToken);
+        Log.i("TAG", body.toString());
+        Log.i("TAG", destination.toString());
+        Request request = new Request.Builder()
+                .url(destination)
+                .post(body)
+                .build();
+        Log.i("TAG", request.toString());
+        connect(request);
     }
 
-    public static String getUser(String shkap_token, Uri uri) {
-        try {
-            URL address = new URL(uri.toString());
-            Request request = new Request.Builder()
-                    .url(address)
-                    .header(AUTHORIZATION, BEARER + shkap_token)
-                    .build();
-            userData = connect(request);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        return userData;
+    public static void getUser(String shkap_token, URL destination) {
+        Request request = new Request.Builder()
+                .url(destination)
+                .header(AUTHORIZATION, BEARER + shkap_token)
+                .build();
     }
 
-    private static String connect(Request request) {
+    private static void connect(Request request) {
         OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
@@ -72,10 +56,8 @@ public class ShkapSRV {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                Log.i("TAG", response.body().string());
-                shkap_token = response.body().string();
+                Log.i("LOGIN", response.body().string());
             }
         });
-        return shkap_token;
     }
 }

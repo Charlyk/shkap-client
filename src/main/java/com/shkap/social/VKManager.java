@@ -11,6 +11,8 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 
+import java.net.MalformedURLException;
+
 /**
  * Created by Eduard Albu on 05.08.2015.
  */
@@ -24,11 +26,8 @@ public class VKManager extends LoginActivity {
     }
 
     // Логинит пользователя в ВКонтакте
-    public static void logInWithVK() {
+    public static void logInWithVK() throws MalformedURLException {
         VKSdk.login(currentActivity, VKScope.PHOTOS, VKScope.FRIENDS);
-        String accessToken = VKAccessToken.currentToken().accessToken;
-        //LoginActivity.makeLog("TAG", VKAccessToken.currentToken().accessToken);
-        //ShkapSRV.register(accessToken, ApiInfo.regToVK());
     }
 
 
