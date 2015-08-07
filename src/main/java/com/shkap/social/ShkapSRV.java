@@ -24,11 +24,12 @@ public class ShkapSRV {
 
     private static final String AUTHORIZATION = "Authorization ";
     private static final String BEARER = " Bearer ";
+    private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
     public static void register(String accessToken, URL destination) {
-        RequestBody body = RequestBody.create(MediaType.parse(accessToken), accessToken);
+        RequestBody body = RequestBody.create(MEDIA_TYPE, String.valueOf(accessToken));
         Log.i("TAG", accessToken);
-        Log.i("TAG", body.toString());
+        Log.i("TAG", String.valueOf(body));
         Log.i("TAG", destination.toString());
         Request request = new Request.Builder()
                 .url(destination)
