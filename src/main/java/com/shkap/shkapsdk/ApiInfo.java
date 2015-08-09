@@ -1,4 +1,4 @@
-package com.shkap.data;
+package com.shkap.shkapsdk;
 
 import android.net.Uri;
 
@@ -29,14 +29,13 @@ public class ApiInfo {
         return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
-    public static Uri getUser(String userId) {
+    public static URL getUser(String userId) throws MalformedURLException {
         Uri.Builder builder = new Uri.Builder();
-        return builder.scheme(PROTOCOL)
-                .appendEncodedPath(SHKAP_SERV)
-                .appendPath(API_V)
+        builder.appendPath(API_V)
                 .appendPath(USERS)
                 .appendPath(userId)
                 .build();
+        return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
     public static Uri getThings() {

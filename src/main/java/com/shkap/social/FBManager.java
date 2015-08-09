@@ -4,7 +4,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
-import com.shkap.data.ApiInfo;
+import com.shkap.shkapsdk.ApiInfo;
+import com.shkap.shkapsdk.ShkapClient;
 import com.shkap.ui.LoginActivity;
 
 import java.net.MalformedURLException;
@@ -22,9 +23,8 @@ public class FBManager extends LoginActivity {
         return new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                String accessToken = parseAccessToken(loginResult.getAccessToken().toString());
                 try {
-                    ShkapSRV.register(accessToken,
+                    ShkapClient.register(loginResult.getAccessToken().getToken(),
                             ApiInfo.regToFacebook());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -39,10 +39,5 @@ public class FBManager extends LoginActivity {
             public void onError(FacebookException e) {
             }
         };
-    }
-    public static String parseAccessToken(String accessToken) {
-        String[] start = accessToken.split(":");
-        String[] finish = start[1].split(" ");
-        return finish[0];
     }
 }

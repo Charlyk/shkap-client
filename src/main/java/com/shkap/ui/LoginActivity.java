@@ -10,15 +10,14 @@ import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
-import com.facebook.LoggingBehavior;
 import com.facebook.login.LoginManager;
-import com.shkap.BuildConfig;
 import com.shkap.R;
-import com.shkap.data.ApiInfo;
+import com.shkap.shkapsdk.ApiInfo;
 import com.shkap.social.FBManager;
-import com.shkap.social.ShkapSRV;
+import com.shkap.shkapsdk.ShkapClient;
 import com.shkap.social.VKManager;
 import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKSdk;
 
 import java.net.MalformedURLException;
 import java.util.Arrays;
@@ -34,18 +33,12 @@ public class LoginActivity extends Activity {
     private static final String PREFERENCES = "preferences";
     private static final String SHKAP_TOKEN = "shkap_token";
     private static final String TAG = "TAG";
-    private boolean VK = false;
-    private boolean FB = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.login_activity);
-        if (BuildConfig.DEBUG) {
-            FacebookSdk.setIsDebugEnabled(true);
-            FacebookSdk.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
-        }
         ButterKnife.bind(this);
 
         mPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
@@ -68,19 +61,16 @@ public class LoginActivity extends Activity {
 
     @OnClick(R.id.vk_loginBtn)
     public void vkClick() {
-        VK = true;
         VKManager vkManager = new VKManager(LoginActivity.this, LoginActivity.this);
         try {
             VKManager.logInWithVK();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-        makeToasts("Welcome");
     }
 
     @OnClick(R.id.fb_loginBtn)
     public void fbClick() {
-        FB = true;
         LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this,
                 Arrays.asList("public_profile", "user_friends"));
     }
@@ -92,13 +82,13 @@ public class LoginActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (VK) {
+        if (VKSdk.isLoggedIn()) {
             try {
-                ShkapSRV.register(VKAccessToken.currentToken().accessToken, ApiInfo.regToVK());
+                ShkapClient.register(VKAccessToken.currentToken().accessToken, ApiInfo.regToVK());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
-        } else if (FB) {
+        } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
         startActivity(mMainIntent);

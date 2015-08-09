@@ -1,6 +1,5 @@
-package com.shkap.social;
+package com.shkap.shkapsdk;
 
-import android.net.Uri;
 import android.util.Log;
 
 import com.shkap.ui.LoginActivity;
@@ -13,29 +12,25 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
  * Created by Eduard Albu on 06.08.2015.
  */
-public class ShkapSRV {
+public class ShkapClient {
 
-    private static final String AUTHORIZATION = "Authorization ";
-    private static final String BEARER = " Bearer ";
+    //// TODO: 10.08.2015 Переписать клиент чтобы он был максимально гибким
+    //// TODO: 10.08.2015 Изучить обработку ошибок в OkHttp
+    private static final String AUTHORIZATION = "Authorization";
+    private static final String BEARER = "Bearer ";
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
     public static void register(String accessToken, URL destination) {
-        RequestBody body = RequestBody.create(MEDIA_TYPE, String.valueOf(accessToken));
-        Log.i("TAG", accessToken);
-        Log.i("TAG", String.valueOf(body));
-        Log.i("TAG", destination.toString());
+        RequestBody body = RequestBody.create(MEDIA_TYPE, accessToken);
         Request request = new Request.Builder()
                 .url(destination)
                 .post(body)
                 .build();
-        Log.i("TAG", request.toString());
         connect(request);
     }
 
@@ -57,7 +52,14 @@ public class ShkapSRV {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                Log.i("LOGIN", response.body().string());
+                final String token = response.body().string();
+                Runnable r = new Runnable() {
+                    @Override
+                    public void run() {
+                        LoginActivity.saveToken(token);
+                    }
+                };
+                r.run();
             }
         });
     }

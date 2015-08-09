@@ -2,12 +2,8 @@ package com.shkap.social;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 
-import com.shkap.data.ApiInfo;
 import com.shkap.ui.LoginActivity;
-import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 
