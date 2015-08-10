@@ -1,5 +1,8 @@
 package com.shkap.shkapsdk;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.shkap.ui.LoginActivity;
@@ -45,25 +48,28 @@ public class ShkapClient {
     }
 
     private void connect(Request request) {
-        OkHttpClient client = new OkHttpClient();
-        Call call = client.newCall(request);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                Log.e("TAG", e.toString());
-            }
+        LoginActivity activity = new LoginActivity();
+        if (activity.isNetworkAvailable()) {
+            OkHttpClient client = new OkHttpClient();
+            Call call = client.newCall(request);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Request request, IOException e) {
+                    Log.e("TAG", e.toString());
+                }
 
-            @Override
-            public void onResponse(Response response) throws IOException {
-                final String token = response.body().string();
-                Runnable r = new Runnable() {
-                    @Override
-                    public void run() {
-                        LoginActivity.saveToken(token);
-                    }
-                };
-                r.run();
-            }
-        });
+                @Override
+                public void onResponse(Response response) throws IOException {
+                    final String token = response.body().string();
+                    Runnable r = new Runnable() {
+                        @Override
+                        public void run() {
+                            LoginActivity.saveToken(token);
+                        }
+                    };
+                    r.run();
+                }
+            });
+        } else activity.alertUserAboutTheError();
     }
 }

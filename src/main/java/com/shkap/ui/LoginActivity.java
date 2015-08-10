@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,6 +35,7 @@ public class LoginActivity extends Activity {
     private static final String PREFERENCES = "preferences";
     private static final String SHKAP_TOKEN = "shkap_token";
     private static final String TAG = "TAG";
+    private ShkapClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class LoginActivity extends Activity {
 
         mPreferences = getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE);
         mMainIntent = new Intent(this, MainActivity.class);
+        mClient = new ShkapClient();
         Log.i(TAG, "onCreate()");
         if (getToken() != null) {
             Log.i(TAG, getToken());
@@ -61,12 +65,12 @@ public class LoginActivity extends Activity {
 
     @OnClick(R.id.vk_loginBtn)
     public void vkClick() {
-        VKManager vkManager = new VKManager(LoginActivity.this, LoginActivity.this);
-        try {
-            VKManager.logInWithVK();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
+            VKManager vkManager = new VKManager(LoginActivity.this, LoginActivity.this);
+            try {
+                VKManager.logInWithVK();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
     }
 
     @OnClick(R.id.fb_loginBtn)
@@ -84,7 +88,7 @@ public class LoginActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
         if (VKSdk.isLoggedIn()) {
             try {
-                ShkapClient.register(VKAccessToken.currentToken().accessToken, ApiInfo.regToVK());
+                mClient.register(VKAccessToken.currentToken().accessToken, ApiInfo.regToVK());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -104,5 +108,22 @@ public class LoginActivity extends Activity {
 
     public static String getToken() {
         return mPreferences.getString(SHKAP_TOKEN, null);
+    }
+
+    public boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
+
+    public void alertUserAboutTheError() {
+        AlertDialogFragment dialog = new AlertDialogFragment();
+        dialog.show(getFragmentManager(), "error_dialog");
     }
 }
