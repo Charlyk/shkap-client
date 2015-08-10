@@ -1,5 +1,6 @@
 package com.shkap.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
@@ -16,6 +17,7 @@ public class Thing {
     private String mPrice;
     private List<String> mAttachments;
 
+    @JsonCreator
     public Thing(@JsonProperty("id") String id,
                  @JsonProperty("title") String title,
                  @JsonProperty("description") String description,

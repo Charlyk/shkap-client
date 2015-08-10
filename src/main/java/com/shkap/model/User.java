@@ -1,5 +1,6 @@
 package com.shkap.model;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -12,6 +13,7 @@ public class User {
     private final String mLastName;
     private final String mPhoto;
 
+    @JsonCreator
     public User (@JsonProperty("id") String id,
                  @JsonProperty("first_name") String firstName,
                  @JsonProperty("last_name") String lastName,

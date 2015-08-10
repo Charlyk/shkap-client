@@ -25,7 +25,7 @@ public class ShkapClient {
     private static final String BEARER = "Bearer ";
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json");
 
-    public static void register(String accessToken, URL destination) {
+    public void register(String accessToken, URL destination) {
         RequestBody body = RequestBody.create(MEDIA_TYPE, accessToken);
         Request request = new Request.Builder()
                 .url(destination)
@@ -34,14 +34,17 @@ public class ShkapClient {
         connect(request);
     }
 
-    public static void getUser(String shkap_token, URL destination) {
+    public void post(String shkap_token, URL destination, String message) {
+        RequestBody body = RequestBody.create(MEDIA_TYPE, message);
         Request request = new Request.Builder()
                 .url(destination)
                 .header(AUTHORIZATION, BEARER + shkap_token)
+                .post(body)
                 .build();
+        connect(request);
     }
 
-    private static void connect(Request request) {
+    private void connect(Request request) {
         OkHttpClient client = new OkHttpClient();
         Call call = client.newCall(request);
         call.enqueue(new Callback() {
