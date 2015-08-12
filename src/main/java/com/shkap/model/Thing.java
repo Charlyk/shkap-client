@@ -10,29 +10,21 @@ import java.util.List;
  */
 public class Thing {
 
-    //// TODO: 10.08.2015 Отредактировать после переписания ShkapClient
-    private String mId;
     private String mTitle;
     private String mDescription;
-    private String mPrice;
+    private int mPrice;
     private List<String> mAttachments;
 
     @JsonCreator
-    public Thing(@JsonProperty("id") String id,
-                 @JsonProperty("title") String title,
+    public Thing(@JsonProperty("title") String title,
                  @JsonProperty("description") String description,
-                 @JsonProperty("price") String price,
+                 @JsonProperty("price") int price,
                  @JsonProperty("attachments") List<String> attachments)
     {
-        this.mId = id;
         this.mTitle = title;
         this.mDescription = description;
         this.mPrice = price;
         this.mAttachments = attachments;
-    }
-
-    public String getId() {
-        return mId;
     }
 
     public String getTitle() {
@@ -43,7 +35,7 @@ public class Thing {
         return mDescription;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return mPrice;
     }
 

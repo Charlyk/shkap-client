@@ -15,8 +15,8 @@ public class User {
 
     @JsonCreator
     public User (@JsonProperty("id") String id,
-                 @JsonProperty("first_name") String firstName,
-                 @JsonProperty("last_name") String lastName,
+                 @JsonProperty("firstName") String firstName,
+                 @JsonProperty("lastNname") String lastName,
                  @JsonProperty("photo") String photo)
     {
         this.mUserId = id;

@@ -11,14 +11,16 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.shkap.R;
 import com.shkap.shkapsdk.ApiInfo;
-import com.shkap.social.FBManager;
 import com.shkap.shkapsdk.ShkapClient;
-import com.shkap.social.VKManager;
 import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 
 import java.net.MalformedURLException;
@@ -41,6 +43,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+        VKSdk.initialize(this);
         setContentView(R.layout.login_activity);
         ButterKnife.bind(this);
 
@@ -53,24 +56,40 @@ public class LoginActivity extends Activity {
             startActivity(mMainIntent);
             finish();
         }
-        callbackManager = FBManager.getCallbackManager();
+
+        callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
-                FBManager.getLoginResult());
+                new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        try {
+                            mClient.register(loginResult.getAccessToken().getToken(),
+                                    ApiInfo.regWithFacebook());
+                        } catch (MalformedURLException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+
+                    @Override
+                    public void onError(FacebookException e) {
+
+                    }
+                });
     }
 
     @OnClick(R.id.ggp_loginBtn)
     public void googleClick() {
-        makeToasts("Google is coming");
+        Toast.makeText(this, "Google is coming", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.vk_loginBtn)
     public void vkClick() {
-            VKManager vkManager = new VKManager(LoginActivity.this, LoginActivity.this);
-            try {
-                VKManager.logInWithVK();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+        VKSdk.login(LoginActivity.this, VKScope.PHOTOS, VKScope.FRIENDS);
     }
 
     @OnClick(R.id.fb_loginBtn)
@@ -79,16 +98,12 @@ public class LoginActivity extends Activity {
                 Arrays.asList("public_profile", "user_friends"));
     }
 
-    public void makeToasts(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (VKSdk.isLoggedIn()) {
             try {
-                mClient.register(VKAccessToken.currentToken().accessToken, ApiInfo.regToVK());
+                mClient.register(VKAccessToken.currentToken().accessToken, ApiInfo.regWithVK());
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }

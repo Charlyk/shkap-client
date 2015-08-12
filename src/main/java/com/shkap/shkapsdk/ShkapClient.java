@@ -47,7 +47,7 @@ public class ShkapClient {
         connect(request);
     }
 
-    private void connect(Request request) {
+    private void connect(final Request request) {
         LoginActivity activity = new LoginActivity();
         if (activity.isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();

@@ -57,7 +57,7 @@ public class ApiInfo {
                 .build();
     }
 
-    public static URL regToVK() throws MalformedURLException {
+    public static URL regWithVK() throws MalformedURLException {
         Uri.Builder builder = new Uri.Builder();
         builder.appendPath(API_V)
                 .appendPath(VK)
@@ -66,7 +66,7 @@ public class ApiInfo {
         return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
-    public static URL regToFacebook() throws MalformedURLException {
+    public static URL regWithFacebook() throws MalformedURLException {
         Uri.Builder builder = new Uri.Builder();
         builder.appendPath(API_V)
                 .appendPath(FB)
