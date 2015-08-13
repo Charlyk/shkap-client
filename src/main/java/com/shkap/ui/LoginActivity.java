@@ -62,12 +62,7 @@ public class LoginActivity extends Activity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        try {
-                            mClient.register(loginResult.getAccessToken().getToken(),
-                                    ApiInfo.regWithFacebook());
-                        } catch (MalformedURLException e) {
-                            e.printStackTrace();
-                        }
+                        mClient.fbRegister(loginResult.getAccessToken().getToken());
                     }
 
                     @Override

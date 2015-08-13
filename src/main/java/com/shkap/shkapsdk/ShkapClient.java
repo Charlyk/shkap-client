@@ -15,6 +15,7 @@ import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -35,6 +36,19 @@ public class ShkapClient {
                 .post(body)
                 .build();
         connect(request);
+    }
+
+    public void fbRegister(String accesToken) {
+        try {
+            RequestBody body = RequestBody.create(MEDIA_TYPE, accesToken);
+            Request request = new Request.Builder()
+                    .url(ApiInfo.regWithFacebook())
+                    .post(body)
+                    .build();
+            connect(request);
+        }catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
     }
 
     public void post(String shkap_token, URL destination, String message) {

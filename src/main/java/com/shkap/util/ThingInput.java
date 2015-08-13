@@ -1,15 +1,45 @@
 package com.shkap.util;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 /**
  * Created by Eduard Albu on 10.08.2015.
  */
 public class ThingInput {
-    private String mTitle;
-    private String mDescription;
-    private int mPrice;
-    private List<String> mAttachments;
+    private final String mTitle;
+    private final String mDescription;
+    private final int mPrice;
+    private final List<String> mAttachments;
+
+    @JsonCreator
+    private ThingInput(@JsonProperty("title") String title,
+                       @JsonProperty("description") String description,
+                       @JsonProperty("price") int price,
+                       @JsonProperty("attachments") List<String> attachments) {
+        mTitle = title;
+        mDescription = description;
+        mPrice = price;
+        mAttachments = attachments;
+    }
+
+    public String getTitle() {
+        return mTitle;
+    }
+
+    public String getDescription() {
+        return mDescription;
+    }
+
+    public int getPrice() {
+        return mPrice;
+    }
+
+    public List<String> getAttachments() {
+        return mAttachments;
+    }
 
     public static class Builder {
         private String mTitle;
@@ -38,14 +68,8 @@ public class ThingInput {
         }
 
         public ThingInput build() {
-            return new ThingInput(this);
+            return new ThingInput(this.mTitle, this.mDescription,
+                    this.mPrice, this.mAttachments);
         }
-    }
-
-    private ThingInput(Builder builder) {
-        mTitle = builder.mTitle;
-        mDescription = builder.mDescription;
-        mPrice = builder.mPrice;
-        mAttachments = builder.mAttachments;
     }
 }
