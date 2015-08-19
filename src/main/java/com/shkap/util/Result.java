@@ -8,5 +8,4 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class Result<T> {
 
     private T object;
-    private final ObjectMapper mapper = new ObjectMapper();
 }

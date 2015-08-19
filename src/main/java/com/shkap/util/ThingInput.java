@@ -3,11 +3,13 @@ package com.shkap.util;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Eduard Albu on 10.08.2015.
  */
+
 public class ThingInput {
     private final String mTitle;
     private final String mDescription;
@@ -18,7 +20,8 @@ public class ThingInput {
     private ThingInput(@JsonProperty("title") String title,
                        @JsonProperty("description") String description,
                        @JsonProperty("price") int price,
-                       @JsonProperty("attachments") List<String> attachments) {
+                       @JsonProperty("attachments") List<String> attachments)
+    {
         mTitle = title;
         mDescription = description;
         mPrice = price;
@@ -47,6 +50,10 @@ public class ThingInput {
         private int mPrice;
         private List<String> mAttachments;
 
+        public Builder() {
+            this.mAttachments = new ArrayList<>();
+        }
+
         public Builder title(String title) {
             mTitle = title;
             return this;
@@ -68,6 +75,9 @@ public class ThingInput {
         }
 
         public ThingInput build() {
+            if (mTitle == null) throw new IllegalStateException("");
+            else if (mDescription == null) throw new IllegalStateException("");
+            // Цена и изображения могут быть пустыми
             return new ThingInput(this.mTitle, this.mDescription,
                     this.mPrice, this.mAttachments);
         }
