@@ -67,11 +67,11 @@ public class ApiInfo {
     }
 
     public static URL regWithFacebook() throws MalformedURLException {
-        Uri.Builder builder = new Uri.Builder();
-        builder.appendPath(API_V)
-                .appendPath(FB)
-                .appendPath(REGISTER)
-                .build();
+            Uri.Builder builder = new Uri.Builder();
+            builder.appendPath(API_V)
+                    .appendPath(FB)
+                    .appendPath(REGISTER)
+                    .build();
         return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 

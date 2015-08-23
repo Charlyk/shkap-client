@@ -97,11 +97,7 @@ public class LoginActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (VKSdk.isLoggedIn()) {
-            try {
-                mClient.register(VKAccessToken.currentToken().accessToken, ApiInfo.regWithVK());
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
+            mClient.vkRegister(VKAccessToken.currentToken().accessToken);
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
