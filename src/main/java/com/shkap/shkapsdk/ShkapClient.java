@@ -1,14 +1,9 @@
 package com.shkap.shkapsdk;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shkap.model.Thing;
-import com.shkap.model.User;
 import com.shkap.ui.LoginActivity;
 import com.shkap.util.Result;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
@@ -40,38 +35,38 @@ public class ShkapClient {
         HttpPost post = new HttpPost(url);
         try {
             post.setHeader("Authorisation", "Bearer " + shkapToken);
-            execute(post, handler, o);
+            execute(post, o);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public String vkRegister(String token) {
+    public String vkRegister(String vkToken) {
         try {
-            HttpPost post = new HttpPost(String.valueOf(ApiInfo.regWithVK()));
-            byte[] bytes = mMapper.writeValueAsBytes(token);
+            HttpPost post = new HttpPost(ApiInfo.regWithVK().toString());
+            byte[] bytes = mMapper.writeValueAsBytes(vkToken);
             post.setEntity(new ByteArrayEntity(bytes));
-            shkapToken = mClient.execute(post, handler);
+            LoginActivity.saveToken(mClient.execute(post, handler));
         } catch (IOException e) {
             e.printStackTrace();
         }
         return shkapToken;
     }
 
-    public String fbRegister(String facebookToken) {
+    public void fbRegister(String facebookToken) {
         try {
-            HttpPost post = new HttpPost(String.valueOf(ApiInfo.regWithFacebook()));
+            HttpPost post = new HttpPost(ApiInfo.regWithFacebook().toString());
             byte[] bytes = mMapper.writeValueAsBytes(facebookToken);
             post.setEntity(new ByteArrayEntity(bytes));
-            shkapToken = mClient.execute(post, handler);
+            LoginActivity.saveToken(mClient.execute(post, handler));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return shkapToken;
     }
 
-    private void execute(HttpUriRequest request, ResponseHandler handler, Object o) throws IOException {
-        String resultBody = mClient.execute(request, handler).toString();
+    private void execute(HttpUriRequest request, Object o) throws IOException {
+        String resultBody = mClient.execute(request, handler);
+        handler.handleResponse(mClient.execute(request));
         Result<Object> result = new Result<>();
         result.handle(o, resultBody);
     }
