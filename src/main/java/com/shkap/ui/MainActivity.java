@@ -3,10 +3,8 @@ package com.shkap.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 
 import com.shkap.R;
-import com.shkap.social.VKManager;
 import com.shkap.model.ViewInitializer;
 
 public class MainActivity extends ViewInitializer {
