@@ -11,14 +11,27 @@ import java.io.IOException;
  */
 public class Result<T> {
 
-    private final ObjectMapper mMapper = new ObjectMapper();
+    private final T mValue;
+    private final Error mError;
 
-    public void handle(T object, String json) {
-        try {
-            if (object instanceof User) mMapper.readValue(json, User.class);
-            if (object instanceof Thing) mMapper.readValue(json, Thing.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Result (T value, Error error) {
+        this.mValue = value;
+        this.mError = error;
+    }
+
+    public static <T> Result<T> ok (T value) {
+        return new Result<>(value, null);
+    }
+
+    public static <T> Result<T> error (Error error) {
+        return new Result<>(null, error);
+    }
+
+    public T getValue() {
+        return mValue;
+    }
+
+    public Error getError() {
+        return mError;
     }
 }

@@ -1,14 +1,11 @@
 package com.shkap.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.EditText;
 
 import com.shkap.R;
-import com.shkap.model.Thing;
 import com.shkap.model.ViewInitializer;
 import com.shkap.util.ThingInput;
 
@@ -21,7 +18,8 @@ public class AddActivity extends ViewInitializer {
     @Bind(R.id.title_label) EditText mTitleLabel;
     @Bind(R.id.description_label) EditText mDescriptionLabel;
     @Bind(R.id.price_label) EditText mPriceLabel;
-    ThingInput mThingInput;
+    private ThingInput mThingInput;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -23,6 +23,7 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 
@@ -62,7 +63,13 @@ public class LoginActivity extends Activity {
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        mClient.fbRegister(loginResult.getAccessToken().getToken());
+                        try {
+                            saveToken(mClient.fbRegister(loginResult
+                                    .getAccessToken()
+                                    .getToken()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -97,7 +104,13 @@ public class LoginActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (VKSdk.isLoggedIn()) {
-            mClient.vkRegister(VKAccessToken.currentToken().accessToken);
+            try {
+                saveToken(mClient.vkRegister(VKAccessToken
+                        .currentToken()
+                        .accessToken));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         } else {
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }

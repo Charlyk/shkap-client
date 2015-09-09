@@ -1,73 +1,72 @@
 package com.shkap.shkapsdk;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shkap.ui.LoginActivity;
-import com.shkap.util.Result;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.RequestBody;
+import com.squareup.okhttp.Response;
 
 import java.io.IOException;
 
 /**
  * Created by Eduard Albu on 06.08.2015.
  */
-public class ShkapClient {
+public class ShkapClient<T> {
 
+    private final OkHttpClient mClient;
+    private final MediaType JSON;
     private final ObjectMapper mMapper;
-    private final HttpClient mClient;
-    private String shkapToken = null;
-    private ResponseHandler<String> handler;
+    private final String SHKAP_TOKEN;
 
     public ShkapClient() {
         mMapper = new ObjectMapper();
-        mClient = new DefaultHttpClient();
-        handler = new BasicResponseHandler();
+        mClient = new OkHttpClient();
+        JSON = MediaType.parse("application/json; charset=utf-8");
+        SHKAP_TOKEN = LoginActivity.getToken();
     }
 
-    public void post(String url, Object o) {
-        String shkapToken = LoginActivity.getToken();
-        HttpPost post = new HttpPost(url);
+    public void post(String url, T o) throws IOException {
+        RequestBody body = RequestBody.create(JSON, makeJSON(o));
+        Request request = new Request.Builder()
+                .header("Authorisation", "Bearer " + SHKAP_TOKEN)
+                .url(url)
+                .post(body)
+                .build();
+        execute(request);
+    }
+
+    public String vkRegister(String vkToken) throws IOException {
+        RequestBody body = RequestBody.create(JSON, vkToken);
+        Request request = new Request.Builder()
+                .url(ApiInfo.regWithVK())
+                .post(body)
+                .build();
+        return execute(request).toString();
+    }
+
+    public String fbRegister(String facebookToken) throws IOException {
+        RequestBody body = RequestBody.create(JSON, facebookToken);
+        Request request = new Request.Builder()
+                .url(ApiInfo.regWithFacebook())
+                .post(body)
+                .build();
+        return execute(request).toString();
+    }
+
+    private Response execute(Request request) throws IOException {
+        return mClient.newCall(request).execute();
+    }
+
+    private String makeJSON (T o) {
+        String object = null;
         try {
-            post.setHeader("Authorisation", "Bearer " + shkapToken);
-            execute(post, o);
-        } catch (IOException e) {
+            object = mMapper.writeValueAsString(o);
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-    }
-
-    public String vkRegister(String vkToken) {
-        try {
-            HttpPost post = new HttpPost(ApiInfo.regWithVK().toString());
-            byte[] bytes = mMapper.writeValueAsBytes(vkToken);
-            post.setEntity(new ByteArrayEntity(bytes));
-            LoginActivity.saveToken(mClient.execute(post, handler));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return shkapToken;
-    }
-
-    public void fbRegister(String facebookToken) {
-        try {
-            HttpPost post = new HttpPost(ApiInfo.regWithFacebook().toString());
-            byte[] bytes = mMapper.writeValueAsBytes(facebookToken);
-            post.setEntity(new ByteArrayEntity(bytes));
-            LoginActivity.saveToken(mClient.execute(post, handler));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void execute(HttpUriRequest request, Object o) throws IOException {
-        String resultBody = mClient.execute(request, handler);
-        handler.handleResponse(mClient.execute(request));
-        Result<Object> result = new Result<>();
-        result.handle(o, resultBody);
+        return object;
     }
 }
