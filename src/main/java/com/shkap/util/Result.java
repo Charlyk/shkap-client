@@ -9,29 +9,37 @@ import java.io.IOException;
 /**
  * Created by Eduard Albu on 12.08.2015.
  */
-public class Result<T> {
+public class Result {
 
-    private final T mValue;
+    private final String mValue;
     private final Error mError;
 
-    public Result (T value, Error error) {
+    public Result(String value, Error error) {
         this.mValue = value;
         this.mError = error;
     }
 
-    public static <T> Result<T> ok (T value) {
-        return new Result<>(value, null);
+    public static Result ok(String value) {
+        return new Result(value, null);
     }
 
-    public static <T> Result<T> error (Error error) {
-        return new Result<>(null, error);
+    public static Result error(Error error) {
+        return new Result(null, error);
     }
 
-    public T getValue() {
+    public String getValue() {
         return mValue;
     }
 
     public Error getError() {
         return mError;
+    }
+
+    public boolean isSuccessful() {
+        return mValue != null;
+    }
+
+    public boolean hasFailed() {
+        return mError != null;
     }
 }
