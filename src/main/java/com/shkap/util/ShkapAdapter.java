@@ -15,7 +15,7 @@ public class ShkapAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     JSONArray dataSet;
     public ShkapAdapter(JSONArray dataSet) {
-
+        this.dataSet = dataSet;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

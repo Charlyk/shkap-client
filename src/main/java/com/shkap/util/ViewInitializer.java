@@ -1,4 +1,4 @@
-package com.shkap.model;
+package com.shkap.util;
 
 import android.app.SearchManager;
 import android.content.ComponentName;

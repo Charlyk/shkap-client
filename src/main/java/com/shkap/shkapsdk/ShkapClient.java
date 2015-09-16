@@ -3,6 +3,7 @@ package com.shkap.shkapsdk;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shkap.ui.LoginActivity;
+import com.shkap.util.ShkapHandler;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -20,12 +21,15 @@ public class ShkapClient<T> {
     private final MediaType JSON;
     private final ObjectMapper mMapper;
     private final String SHKAP_TOKEN;
+    private final ShkapHandler mShkapHandler;
+    private T o;
 
     public ShkapClient() {
         mMapper = new ObjectMapper();
         mClient = new OkHttpClient();
         JSON = MediaType.parse("application/json; charset=utf-8");
         SHKAP_TOKEN = LoginActivity.getToken();
+        mShkapHandler = new ShkapHandler();
     }
 
     public void post(String url, T o) throws IOException {
@@ -35,7 +39,7 @@ public class ShkapClient<T> {
                 .url(url)
                 .post(body)
                 .build();
-        execute(request);
+        mShkapHandler.handleResponse(execute(request));
     }
 
     public String vkRegister(String vkToken) throws IOException {
@@ -60,7 +64,7 @@ public class ShkapClient<T> {
         return mClient.newCall(request).execute();
     }
 
-    private String makeJSON (T o) {
+    private String makeJSON(T o) {
         String object = null;
         try {
             object = mMapper.writeValueAsString(o);

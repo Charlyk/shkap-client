@@ -15,8 +15,8 @@ public class Result {
     private final Error mError;
 
     public Result(String value, Error error) {
-        this.mValue = value;
-        this.mError = error;
+        mValue = value;
+        mError = error;
     }
 
     public static Result ok(String value) {

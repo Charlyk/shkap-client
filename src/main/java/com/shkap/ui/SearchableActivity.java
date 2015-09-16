@@ -13,7 +13,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.shkap.R;
-import com.shkap.model.ViewInitializer;
+import com.shkap.util.ViewInitializer;
 
 
 public class SearchableActivity extends ViewInitializer {

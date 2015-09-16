@@ -8,7 +8,7 @@ import android.support.v7.widget.Toolbar;
 
 import com.shkap.R;
 import com.shkap.util.ShkapAdapter;
-import com.shkap.model.ViewInitializer;
+import com.shkap.util.ViewInitializer;
 
 public class MainActivity extends ViewInitializer {
 

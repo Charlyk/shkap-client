@@ -38,7 +38,7 @@ public class ApiInfo {
         return new URL(PROTOCOL, SHKAP_SERV, PORT, builder.toString());
     }
 
-    public static Uri getThings() {
+    public static Uri things() {
         Uri.Builder builder = new Uri.Builder();
         return builder.scheme(PROTOCOL)
                 .appendEncodedPath(SHKAP_SERV)
@@ -47,7 +47,7 @@ public class ApiInfo {
                 .build();
     }
 
-    public static Uri getThing(String thingId) {
+    public static Uri thing(String thingId) {
         Uri.Builder builder = new Uri.Builder();
         return builder.scheme(PROTOCOL)
                 .appendEncodedPath(SHKAP_SERV)

@@ -6,8 +6,14 @@ import android.view.Menu;
 import android.widget.EditText;
 
 import com.shkap.R;
-import com.shkap.model.ViewInitializer;
+import com.shkap.shkapsdk.ApiInfo;
+import com.shkap.shkapsdk.ShkapClient;
+import com.shkap.util.Result;
+import com.shkap.util.ShkapHandler;
+import com.shkap.util.ViewInitializer;
 import com.shkap.util.ThingInput;
+
+import java.io.IOException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -18,13 +24,16 @@ public class AddActivity extends ViewInitializer {
     @Bind(R.id.title_label) EditText mTitleLabel;
     @Bind(R.id.description_label) EditText mDescriptionLabel;
     @Bind(R.id.price_label) EditText mPriceLabel;
-    private ThingInput mThingInput;
+    private ShkapClient<ThingInput> mClient;
+    private ShkapHandler mShkapHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add);
         ButterKnife.bind(this);
+        mClient = new ShkapClient<>();
+        mShkapHandler = new ShkapHandler();
     }
 
     @Override
@@ -50,7 +59,16 @@ public class AddActivity extends ViewInitializer {
         String title = mTitleLabel.getText().toString();
         String description = mDescriptionLabel.getText().toString();
         int price = Integer.parseInt(mPriceLabel.getText().toString());
-        mThingInput = new ThingInput.Builder().title(title).description(description)
+        ThingInput thingInput = new ThingInput.Builder().title(title).description(description)
                 .price(price).build();
+        try {
+            mClient.post(ApiInfo.thing("1").toString(), thingInput);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //// TODO: 16.09.2015 Это временно, ничего лучше пока не пришло в голову
+        if (mShkapHandler.mResult.isSuccessful()) {
+            String value = mShkapHandler.mResult.getValue();
+        }
     }
 }

@@ -15,6 +15,7 @@ public class ShkapHandler {
 
     private ShkapResponseHandler mHandler;
     private ShkapErrorHandler mErrorHandler;
+    public Result mResult;
 
     public ShkapHandler() {
         mHandler = new ShkapResponseHandler();
@@ -24,8 +25,8 @@ public class ShkapHandler {
     public void handleResponse(Response response) {
         int statusCode = response.code();
         if (mHandler.canHandle(statusCode))
-            Result.ok(mHandler.handle(response));
+            mResult = Result.ok(mHandler.handle(response));
         else if (mErrorHandler.canHandle(statusCode))
-            Result.error(mErrorHandler.handle(response));
+            mResult = Result.error(mErrorHandler.handle(response));
     }
 }
