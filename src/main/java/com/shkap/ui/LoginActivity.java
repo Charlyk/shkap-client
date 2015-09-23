@@ -53,7 +53,7 @@ public class LoginActivity extends Activity {
         mClient = new ShkapClient();
         Log.i(TAG, "onCreate()");
         if (getToken() != null) {
-            Log.i(TAG, getToken());
+            //Log.i(TAG, getToken());
             startActivity(mMainIntent);
             finish();
         }

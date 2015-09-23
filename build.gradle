@@ -4,6 +4,11 @@ android {
     compileSdkVersion 23
     buildToolsVersion "22.0.1"
 
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE'
+    }
+
     defaultConfig {
         applicationId "com.shkap"
         minSdkVersion 15

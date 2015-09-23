@@ -30,14 +30,6 @@ public class DrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final Intent intent = new Intent(getActivity(), AddActivity.class);
-        Button addButton = (Button) container.findViewById(R.id.addBtn);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(intent);
-            }
-        });
         return inflater.inflate(R.layout.drawer_fragment, container, false);
     }
 

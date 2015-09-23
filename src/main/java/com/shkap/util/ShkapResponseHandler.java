@@ -9,16 +9,12 @@ import java.io.IOException;
  */
 public class ShkapResponseHandler {
 
-    private int startCode;
-    private int endCode;
     private String value;
 
     public ShkapResponseHandler() {
-        startCode = 200;
-        endCode = 307;
     }
     public boolean canHandle(int statusCode) {
-        if (statusCode < endCode || statusCode > startCode)
+        if (statusCode > 200 && statusCode < 300)
             return true;
         else return false;
     }

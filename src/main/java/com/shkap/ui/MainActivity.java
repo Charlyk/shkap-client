@@ -33,7 +33,7 @@ public class MainActivity extends ViewInitializer {
     protected void initViews() {
         initToolbar();
         initNavDrawer();
-        mRecyclerView = (RecyclerView) findViewById(R.id.main_item_list);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
@@ -43,8 +43,6 @@ public class MainActivity extends ViewInitializer {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-
         super.onActivityResult(requestCode, resultCode, data);
     }
 }

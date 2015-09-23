@@ -8,7 +8,8 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-        android:layout_height="match_parent" tools:context=".MainActivity">
+        android:layout_height="match_parent"
+                    android:background="@color/material_grey_300" tools:context=".MainActivity">
 
         <include layout="@layout/toolbar"
             android:id="@+id/toolbar_mainActivity" />
@@ -17,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar_mainActivity"
-            android:id="@+id/main_item_list"/>
+            android:id="@+id/recycler_view"/>
 
     </RelativeLayout>
 

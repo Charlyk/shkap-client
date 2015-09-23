@@ -1,9 +1,13 @@
 package com.shkap.shkapsdk;
 
+import android.util.Log;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shkap.ui.LoginActivity;
 import com.shkap.util.ShkapHandler;
+import com.squareup.okhttp.Call;
+import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
@@ -23,6 +27,7 @@ public class ShkapClient<T> {
     private final String SHKAP_TOKEN;
     private final ShkapHandler mShkapHandler;
     private T o;
+    private Response mResponse;
 
     public ShkapClient() {
         mMapper = new ObjectMapper();
@@ -30,6 +35,7 @@ public class ShkapClient<T> {
         JSON = MediaType.parse("application/json; charset=utf-8");
         SHKAP_TOKEN = LoginActivity.getToken();
         mShkapHandler = new ShkapHandler();
+        mResponse = null;
     }
 
     public void post(String url, T o) throws IOException {
@@ -48,7 +54,7 @@ public class ShkapClient<T> {
                 .url(ApiInfo.regWithVK())
                 .post(body)
                 .build();
-        return execute(request).toString();
+        return execute(request).body().string();
     }
 
     public String fbRegister(String facebookToken) throws IOException {
@@ -57,11 +63,23 @@ public class ShkapClient<T> {
                 .url(ApiInfo.regWithFacebook())
                 .post(body)
                 .build();
-        return execute(request).toString();
+        return execute(request).body().string();
     }
 
     private Response execute(Request request) throws IOException {
-        return mClient.newCall(request).execute();
+        Call call = mClient.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                Log.e("TAG", e.toString());
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                mResponse = response;
+            }
+        });
+        return mResponse;
     }
 
     private String makeJSON(T o) {
