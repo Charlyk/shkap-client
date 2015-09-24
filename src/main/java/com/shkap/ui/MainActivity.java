@@ -2,12 +2,14 @@ package com.shkap.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
 import com.shkap.R;
-import com.shkap.util.ShkapAdapter;
+import com.shkap.adapters.BigCardAdapter;
+import com.shkap.adapters.SmallCardAdapter;
 import com.shkap.util.ViewInitializer;
 
 public class MainActivity extends ViewInitializer {
@@ -37,7 +39,12 @@ public class MainActivity extends ViewInitializer {
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ShkapAdapter(null); //TODO: Добавить полученные данные вместо null
+        mAdapter = new BigCardAdapter(null); //TODO: Добавить полученные данные вместо null
+        mRecyclerView.setAdapter(mAdapter);
+
+        mLayoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        mAdapter = new SmallCardAdapter(null); //TODO: Добавить полученные данные вместо null
         mRecyclerView.setAdapter(mAdapter);
     }
 

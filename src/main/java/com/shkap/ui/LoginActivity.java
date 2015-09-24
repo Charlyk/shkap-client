@@ -52,11 +52,11 @@ public class LoginActivity extends Activity {
         mMainIntent = new Intent(this, MainActivity.class);
         mClient = new ShkapClient();
         Log.i(TAG, "onCreate()");
-        if (getToken() != null) {
+        //if (getToken() != null) {
             //Log.i(TAG, getToken());
             startActivity(mMainIntent);
             finish();
-        }
+        //}
 
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,

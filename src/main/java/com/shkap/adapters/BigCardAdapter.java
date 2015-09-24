@@ -1,4 +1,4 @@
-package com.shkap.util;
+package com.shkap.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -11,18 +11,15 @@ import android.widget.TextView;
 import com.shkap.R;
 import com.shkap.model.Thing;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Eduard on 08.09.2015.
  */
-public class ShkapAdapter extends RecyclerView.Adapter<ShkapAdapter.ViewHolder> {
+public class BigCardAdapter extends RecyclerView.Adapter<BigCardAdapter.ViewHolder> {
 
     List<Thing> mThings;
-    public ShkapAdapter(List<Thing> things) {
+    public BigCardAdapter(List<Thing> things) {
         mThings = things;
     }
 
@@ -51,7 +48,7 @@ public class ShkapAdapter extends RecyclerView.Adapter<ShkapAdapter.ViewHolder> 
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.one_img_card, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.big_card, parent, false);
         return new ViewHolder(v);
     }
 
