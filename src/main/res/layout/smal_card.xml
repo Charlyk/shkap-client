@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-    android:padding="10dp">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="false"
+    android:padding="5dp">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/small_card"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/small_card">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -17,140 +18,140 @@
 
 
             <ImageView
+                android:id="@+id/smallCard_mainImage"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:id="@+id/smallCard_mainImage"
-                android:src="@drawable/test_image"
-                android:layout_below="@+id/linearLayout8"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:contentDescription="@string/smallCard_mainImageDescription"/>
+                android:layout_below="@+id/linearLayout8"
+                android:contentDescription="@string/smallCard_mainImageDescription"
+                android:src="@drawable/test_image"/>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="10dp"
-                android:id="@+id/linearLayout5"
-                android:layout_below="@+id/smallCard_mainImage"
+                android:layout_alignEnd="@+id/smallCard_mainImage"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignRight="@+id/smallCard_mainImage"
-                android:layout_alignEnd="@+id/smallCard_mainImage">
+                android:layout_below="@+id/smallCard_mainImage"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="10dp">
 
 
                 <ImageView
+                    android:id="@+id/broni_imageView"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:id="@+id/broni_imageView"
                     android:src="@drawable/broni"/>
 
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="12"
-                    android:id="@+id/textView"
+                    android:paddingLeft="5dp"
                     android:paddingRight="10dp"
-                    android:paddingLeft="5dp"/>
+                    android:text="12"/>
 
                 <ImageView
+                    android:id="@+id/like_imageView"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:id="@+id/like_imageView"
                     android:src="@drawable/like"/>
 
                 <TextView
+                    android:id="@+id/smallCard_likesLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100"
-                    android:id="@+id/smallCard_likesLabel"
+                    android:paddingLeft="5dp"
                     android:paddingRight="10dp"
-                    android:paddingLeft="5dp"/>
+                    android:text="100"/>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linearLayout6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout5"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                android:id="@+id/linearLayout6">
+                android:layout_below="@+id/linearLayout5"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/smallCard_priceLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="32 000 P"
-                    android:id="@+id/smallCard_priceLabel"
-                    android:textStyle="bold"
                     android:textColor="@android:color/black"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold"/>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linearLayout7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout6"
+                android:layout_alignEnd="@+id/linearLayout5"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignRight="@+id/linearLayout5"
-                android:layout_alignEnd="@+id/linearLayout5"
-                android:id="@+id/linearLayout7">
+                android:layout_below="@+id/linearLayout6"
+                android:orientation="horizontal">
 
 
                 <TextView
+                    android:id="@+id/mainList_smallCard_description"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="This is the description of the stuff that we have to sell"
-                    android:id="@+id/textView4"
                     android:singleLine="true"
+                    android:text="This is the description of the stuff that we have to sell"
                     />
 
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/linearLayout7"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout7"
+                android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/mainList_smallCard_moreTextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:clickable="true"
                     android:text="more >"
-                    android:id="@+id/textView6"
-                    android:textColor="@color/material_blue_A700"
-                    android:clickable="true"/>
+                    android:textColor="@color/material_blue_A700"/>
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/linearLayout8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/linearLayout8"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:orientation="horizontal"
                 android:paddingBottom="5dp"
                 android:paddingTop="5dp">
 
                 <ImageView
+                    android:id="@+id/sellerPhoto_label"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:id="@+id/sellerPhoto_label"
                     android:src="@drawable/like"/>
 
                 <TextView
+                    android:id="@+id/smallCard_sellerName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Vasea Pupkin"
-                    android:id="@+id/smallCard_sellerName"
+                    android:paddingLeft="5dp"
                     android:paddingRight="10dp"
-                    android:paddingLeft="5dp"/>
+                    android:text="Vasea Pupkin"/>
 
             </LinearLayout>
 

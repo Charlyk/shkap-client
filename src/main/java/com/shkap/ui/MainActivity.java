@@ -2,6 +2,8 @@ package com.shkap.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,10 +15,6 @@ import com.shkap.adapters.SmallCardAdapter;
 import com.shkap.util.ViewInitializer;
 
 public class MainActivity extends ViewInitializer {
-
-    private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,21 +33,18 @@ public class MainActivity extends ViewInitializer {
     protected void initViews() {
         initToolbar();
         initNavDrawer();
-        mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mRecyclerView.setHasFixedSize(true);
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new BigCardAdapter(null); //TODO: Добавить полученные данные вместо null
-        mRecyclerView.setAdapter(mAdapter);
-
-        mLayoutManager = new GridLayoutManager(this, 2, LinearLayoutManager.VERTICAL, false);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new SmallCardAdapter(null); //TODO: Добавить полученные данные вместо null
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void changeFragment(Fragment fragment) {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container_fragment, fragment); //// TODO: 28.09.2015 Change to "replace" after editing MainActivity
+        transaction.addToBackStack(null);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.commit();
     }
 }

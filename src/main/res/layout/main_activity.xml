@@ -17,12 +17,13 @@
         <include layout="@layout/toolbar"
             android:id="@+id/toolbar_mainActivity" />
 
-        <android.support.v7.widget.RecyclerView
+        <fragment
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/toolbar_mainActivity"
-            android:id="@+id/recycler_view"
-            android:padding="5dp"/>
+            android:name="com.shkap.ui.MainFragment"
+            tools:layout="@layout/fragment_main"
+            android:id="@+id/container_fragment"
+            android:layout_below="@+id/toolbar_mainActivity"/>
 
     </RelativeLayout>
 
